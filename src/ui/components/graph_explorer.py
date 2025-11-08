@@ -84,7 +84,7 @@ def render_graph_explorer(
     st.plotly_chart(figure, use_container_width=True)
 
     # Display graph statistics
-    with st.expander("📊 Graph Statistics", expanded=False, help="View detailed statistics about the relationship graph including node counts, edge counts, and breakdown by type"):
+    with st.expander("📊 Graph Statistics", expanded=False):
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Nodes", len(graph.nodes()))
