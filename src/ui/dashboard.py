@@ -15,12 +15,14 @@ from src.parsers.data_parser import load_archive
 from src.services.workgroup_service import WorkgroupService
 from src.services.filter_service import FilterService
 from src.services.aggregation_service import AggregationService
+from src.services.graph_service import GraphService
 from src.ui.components.workgroup_selector import render_workgroup_selector
 from src.ui.components.meeting_list import render_meeting_list
 from src.ui.components.date_filter import render_date_filter
 from src.ui.components.tag_filter import render_tag_filter
 from src.ui.components.decision_tracker import render_decision_tracker
 from src.ui.components.action_item_tracker import render_action_item_tracker
+from src.ui.components.graph_explorer import render_graph_explorer
 
 
 @st.cache_data
@@ -65,6 +67,7 @@ def main():
         workgroup_service = WorkgroupService(meetings)
         filter_service = FilterService()
         aggregation_service = AggregationService()
+        graph_service = GraphService()
 
         # Get workgroups for filters
         workgroups = workgroup_service.get_all_workgroups()
@@ -156,7 +159,9 @@ def main():
             )
 
         # Create tabs for different views
-        tab1, tab2, tab3 = st.tabs(["📊 Meetings", "📋 Decisions", "✅ Action Items"])
+        tab1, tab2, tab3, tab4 = st.tabs(
+            ["📊 Meetings", "📋 Decisions", "✅ Action Items", "🔗 Relationships"]
+        )
 
         # Tab 1: Meetings Browser
         with tab1:
@@ -258,6 +263,18 @@ def main():
                 selected_status=selected_status,
                 start_date=None,  # Already filtered at meeting level
                 end_date=None,  # Already filtered at meeting level
+            )
+
+        # Tab 4: Graph Explorer (lazy loaded - only builds when tab is selected)
+        with tab4:
+            # Render graph explorer with filters from sidebar
+            # Graph is built lazily when this tab is selected
+            render_graph_explorer(
+                meetings,
+                graph_service,
+                selected_workgroup=selected_workgroup,
+                start_date=start_date,
+                end_date=end_date,
             )
 
     except FileNotFoundError as e:

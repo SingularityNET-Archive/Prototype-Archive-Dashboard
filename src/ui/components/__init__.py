@@ -6,6 +6,7 @@ from src.ui.components.date_filter import render_date_filter
 from src.ui.components.tag_filter import render_tag_filter
 from src.ui.components.decision_tracker import render_decision_tracker
 from src.ui.components.action_item_tracker import render_action_item_tracker
+from src.ui.components.graph_explorer import render_graph_explorer
 
 __all__ = [
     "render_workgroup_selector",
@@ -14,5 +15,6 @@ __all__ = [
     "render_tag_filter",
     "render_decision_tracker",
     "render_action_item_tracker",
+    "render_graph_explorer",
 ]
 
