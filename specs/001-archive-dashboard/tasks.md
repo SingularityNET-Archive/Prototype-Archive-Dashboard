@@ -85,23 +85,23 @@
 
 ### Tests for User Story 2
 
-- [ ] T024 [P] [US2] Create contract test for filter service in tests/contract/test_filter_service.py (workgroup filter, date range filter, tag filter, combined filters, empty results, no filters, performance)
-- [ ] T025 [P] [US2] Create integration test for filtering workflow in tests/integration/test_meeting_filters.py (apply date filter → apply tag filter → combine filters → clear filters)
+- [x] T024 [P] [US2] Create contract test for filter service in tests/contract/test_filter_service.py (workgroup filter, date range filter, tag filter, combined filters, empty results, no filters, performance)
+- [x] T025 [P] [US2] Create integration test for filtering workflow in tests/integration/test_meeting_filters.py (apply date filter → apply tag filter → combine filters → clear filters)
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Create Topic model in src/models/topic.py with fields (name, meetings, workgroups, co_occurrences) per data-model.md
-- [ ] T027 [US2] Create FilterService in src/services/filter_service.py with filter_meetings() method per filter-service.md contract (workgroup, start_date, end_date, tags parameters)
-- [ ] T028 [US2] Implement date range filtering logic in FilterService.filter_meetings() using pandas datetime comparison
-- [ ] T029 [US2] Implement tag filtering logic in FilterService.filter_meetings() checking if any tag in tags list appears in meeting.topics_covered
-- [ ] T030 [US2] Implement combined filter logic (AND logic for all filters) in FilterService.filter_meetings()
-- [ ] T031 [US2] Create Streamlit UI component for date range filter in src/ui/components/date_filter.py with st.date_input for start and end dates
-- [ ] T032 [US2] Create Streamlit UI component for tag filter in src/ui/components/tag_filter.py with st.multiselect showing all available topics
-- [ ] T033 [US2] Create utility function to extract all unique topics from meetings in src/utils/topic_extractor.py
-- [ ] T034 [US2] Integrate date and tag filters into main dashboard in src/ui/dashboard.py (add to sidebar)
-- [ ] T035 [US2] Add "Clear All Filters" button in src/ui/dashboard.py that resets all filter values
-- [ ] T036 [US2] Update meeting list display to show filtered results in src/ui/components/meeting_list.py
-- [ ] T037 [US2] Add performance optimization for filtering (use pandas DataFrame for efficient filtering) in src/services/filter_service.py to meet SC-002 and SC-003 (< 2 seconds)
+- [x] T026 [US2] Create Topic model in src/models/topic.py with fields (name, meetings, workgroups, co_occurrences) per data-model.md
+- [x] T027 [US2] Create FilterService in src/services/filter_service.py with filter_meetings() method per filter-service.md contract (workgroup, start_date, end_date, tags parameters)
+- [x] T028 [US2] Implement date range filtering logic in FilterService.filter_meetings() using pandas datetime comparison
+- [x] T029 [US2] Implement tag filtering logic in FilterService.filter_meetings() checking if any tag in tags list appears in meeting.topics_covered
+- [x] T030 [US2] Implement combined filter logic (AND logic for all filters) in FilterService.filter_meetings()
+- [x] T031 [US2] Create Streamlit UI component for date range filter in src/ui/components/date_filter.py with st.date_input for start and end dates
+- [x] T032 [US2] Create Streamlit UI component for tag filter in src/ui/components/tag_filter.py with st.multiselect showing all available topics
+- [x] T033 [US2] Create utility function to extract all unique topics from meetings in src/utils/topic_extractor.py
+- [x] T034 [US2] Integrate date and tag filters into main dashboard in src/ui/dashboard.py (add to sidebar)
+- [x] T035 [US2] Add "Clear All Filters" button in src/ui/dashboard.py that resets all filter values
+- [x] T036 [US2] Update meeting list display to show filtered results in src/ui/components/meeting_list.py
+- [x] T037 [US2] Add performance optimization for filtering (use pandas DataFrame for efficient filtering) in src/services/filter_service.py to meet SC-002 and SC-003 (< 2 seconds)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently. Users can browse by workgroup and filter by date range and tags.
 

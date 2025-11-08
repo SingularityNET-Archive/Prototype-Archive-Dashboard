@@ -1,6 +1,8 @@
 """Services package."""
 
 from src.services.workgroup_service import WorkgroupService
+from src.services.filter_service import FilterService
+from src.services.aggregation_service import AggregationService
 
-__all__ = ["WorkgroupService"]
+__all__ = ["WorkgroupService", "FilterService", "AggregationService"]
 

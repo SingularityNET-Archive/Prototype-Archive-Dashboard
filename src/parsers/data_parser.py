@@ -5,6 +5,8 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 
 from src.models.meeting import Meeting
+from src.models.decision import Decision
+from src.models.action_item import ActionItem
 from src.utils.date_parser import parse_date
 from src.utils.text_normalizer import (
     parse_comma_separated_string,
@@ -154,10 +156,50 @@ def normalize_meeting(raw_meeting: Dict[str, Any], index: int = 0) -> Meeting:
         elif isinstance(meeting_topics, str):
             topics_covered.extend(parse_comma_separated_string(meeting_topics))
 
-    # Action items and decisions will be handled later (Phase 3)
-    # For now, create empty lists
+    # Parse action items and decisions from agendaItems
     action_items = []
     decisions = []
+    
+    for agenda_item_index, agenda_item in enumerate(agenda_items):
+        # Parse action items
+        if "actionItems" in agenda_item:
+            for action_index, raw_action in enumerate(agenda_item["actionItems"]):
+                try:
+                    action_id = f"{meeting_id}_action_{agenda_item_index}_{action_index}"
+                    action_item = ActionItem(
+                        id=action_id,
+                        meeting_id=meeting_id,
+                        workgroup=workgroup,
+                        date=date,
+                        text=raw_action.get("text", ""),
+                        status=raw_action.get("status", "todo"),
+                        assignee=normalize_name(raw_action.get("assignee")) if raw_action.get("assignee") else None,
+                        due_date=raw_action.get("dueDate"),
+                    )
+                    action_items.append(action_item)
+                except (ValueError, KeyError) as e:
+                    logger.warning(f"Skipping malformed action item in meeting {meeting_id}: {e}")
+                    continue
+
+        # Parse decision items
+        if "decisionItems" in agenda_item:
+            for decision_index, raw_decision in enumerate(agenda_item["decisionItems"]):
+                try:
+                    decision_id = f"{meeting_id}_decision_{agenda_item_index}_{decision_index}"
+                    decision = Decision(
+                        id=decision_id,
+                        meeting_id=meeting_id,
+                        workgroup=workgroup,
+                        date=date,
+                        decision_text=raw_decision.get("decision", ""),
+                        effect=raw_decision.get("effect", "affectsOnlyThisWorkgroup"),
+                        rationale=raw_decision.get("rationale"),
+                        opposing=raw_decision.get("opposing"),
+                    )
+                    decisions.append(decision)
+                except (ValueError, KeyError) as e:
+                    logger.warning(f"Skipping malformed decision in meeting {meeting_id}: {e}")
+                    continue
 
     return Meeting(
         id=meeting_id,
