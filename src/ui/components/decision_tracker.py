@@ -6,6 +6,7 @@ from datetime import datetime
 
 from src.models.decision import Decision
 from src.services.filter_service import FilterService
+from src.services.export_service import ExportService
 
 
 def render_decision_tracker(
@@ -46,11 +47,45 @@ def render_decision_tracker(
         )
         return
 
-    # Display count
-    if selected_workgroup:
-        st.subheader(f"Decisions for {selected_workgroup}")
-    else:
-        st.subheader("All Decisions")
+    # Display count and export buttons
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        if selected_workgroup:
+            st.subheader(f"Decisions for {selected_workgroup}")
+        else:
+            st.subheader("All Decisions")
+    with col2:
+        export_service = ExportService()
+        
+        # Export buttons
+        export_col1, export_col2, export_col3 = st.columns(3)
+        with export_col1:
+            plain_text = export_service.export_decisions_plain_text(filtered_decisions)
+            st.download_button(
+                "📄 TXT",
+                data=plain_text,
+                file_name="decisions.txt",
+                mime="text/plain",
+                help="Download decisions as plain text (tab-separated)",
+            )
+        with export_col2:
+            csv_data = export_service.export_to_csv(filtered_decisions, "decisions")
+            st.download_button(
+                "📊 CSV",
+                data=csv_data,
+                file_name="decisions.csv",
+                mime="text/csv",
+                help="Download decisions as CSV",
+            )
+        with export_col3:
+            json_data = export_service.export_to_json(filtered_decisions)
+            st.download_button(
+                "📋 JSON",
+                data=json_data,
+                file_name="decisions.json",
+                mime="application/json",
+                help="Download decisions as JSON",
+            )
 
     # Display decisions
     for decision in filtered_decisions:

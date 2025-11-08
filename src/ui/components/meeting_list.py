@@ -4,6 +4,7 @@ import streamlit as st
 from typing import List, Optional
 
 from src.models.meeting import Meeting
+from src.services.export_service import ExportService
 
 
 def render_meeting_list(meetings: List[Meeting], sort_order: str = "newest"):
@@ -17,9 +18,43 @@ def render_meeting_list(meetings: List[Meeting], sort_order: str = "newest"):
         st.info("No meetings found for the selected workgroup.")
         return
 
-    # Display sort order info
+    # Display sort order info and export buttons
     sort_label = "Newest first" if sort_order == "newest" else "Oldest first"
-    st.caption(f"Showing {len(meetings)} meeting(s) - {sort_label}")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.caption(f"Showing {len(meetings)} meeting(s) - {sort_label}")
+    with col2:
+        export_service = ExportService()
+        
+        # Export buttons
+        export_col1, export_col2, export_col3 = st.columns(3)
+        with export_col1:
+            plain_text = export_service.export_meetings_plain_text(meetings)
+            st.download_button(
+                "📄 TXT",
+                data=plain_text,
+                file_name="meetings.txt",
+                mime="text/plain",
+                help="Download meetings as plain text (tab-separated)",
+            )
+        with export_col2:
+            csv_data = export_service.export_to_csv(meetings, "meetings")
+            st.download_button(
+                "📊 CSV",
+                data=csv_data,
+                file_name="meetings.csv",
+                mime="text/csv",
+                help="Download meetings as CSV",
+            )
+        with export_col3:
+            json_data = export_service.export_to_json(meetings)
+            st.download_button(
+                "📋 JSON",
+                data=json_data,
+                file_name="meetings.json",
+                mime="application/json",
+                help="Download meetings as JSON",
+            )
 
     # Display each meeting
     for meeting in meetings:

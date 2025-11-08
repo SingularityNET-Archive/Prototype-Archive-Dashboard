@@ -9,6 +9,7 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
 import streamlit as st
+import json
 from datetime import datetime, time
 
 from src.parsers.data_parser import load_archive
@@ -278,13 +279,41 @@ def main():
             )
 
     except FileNotFoundError as e:
-        st.error(f"Error loading data: {e}")
+        st.error("❌ **Data File Not Found**")
+        st.error(f"Could not find the meeting archive file: {e}")
         st.info(
-            "Please ensure meeting-summaries-array-3.json is in the data/ directory or repository root"
+            "**How to fix:**\n"
+            "- Ensure `meeting-summaries-array-3.json` is in the `data/` directory, or\n"
+            "- Place it in the repository root directory"
+        )
+        st.code("data/meeting-summaries-array-3.json", language="text")
+    except json.JSONDecodeError as e:
+        st.error("❌ **Invalid JSON Format**")
+        st.error(f"The meeting archive file contains invalid JSON: {e}")
+        st.info(
+            "**How to fix:**\n"
+            "- Verify the JSON file is valid and properly formatted\n"
+            "- Check for syntax errors, missing brackets, or commas"
+        )
+    except ValueError as e:
+        st.error("❌ **Data Validation Error**")
+        st.error(f"Invalid data in the meeting archive: {e}")
+        st.info(
+            "**How to fix:**\n"
+            "- Check that all required fields are present in the JSON\n"
+            "- Verify date formats are correct (YYYY-MM-DD)"
         )
     except Exception as e:
-        st.error(f"An error occurred: {e}")
-        st.exception(e)
+        st.error("❌ **Unexpected Error**")
+        st.error(f"An unexpected error occurred: {e}")
+        st.info(
+            "**What to do:**\n"
+            "- Try refreshing the page\n"
+            "- Check the browser console for more details\n"
+            "- If the problem persists, please report this issue"
+        )
+        with st.expander("Technical Details"):
+            st.exception(e)
 
 
 if __name__ == "__main__":

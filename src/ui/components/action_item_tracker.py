@@ -6,6 +6,7 @@ from datetime import datetime, time
 
 from src.models.action_item import ActionItem
 from src.services.filter_service import FilterService
+from src.services.export_service import ExportService
 
 
 def render_action_item_tracker(
@@ -63,10 +64,45 @@ def render_action_item_tracker(
         end_str = end_date.strftime('%Y-%m-%d') if end_date else '...'
         filter_info.append(f"Date: {start_str} to {end_str}")
 
-    if filter_info:
-        st.subheader(f"Filtered Action Items ({', '.join(filter_info)})")
-    else:
-        st.subheader("All Action Items")
+    # Display header and export buttons
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        if filter_info:
+            st.subheader(f"Filtered Action Items ({', '.join(filter_info)})")
+        else:
+            st.subheader("All Action Items")
+    with col2:
+        export_service = ExportService()
+        
+        # Export buttons
+        export_col1, export_col2, export_col3 = st.columns(3)
+        with export_col1:
+            plain_text = export_service.export_action_items_plain_text(filtered_items)
+            st.download_button(
+                "📄 TXT",
+                data=plain_text,
+                file_name="action_items.txt",
+                mime="text/plain",
+                help="Download action items as plain text (tab-separated)",
+            )
+        with export_col2:
+            csv_data = export_service.export_to_csv(filtered_items, "action_items")
+            st.download_button(
+                "📊 CSV",
+                data=csv_data,
+                file_name="action_items.csv",
+                mime="text/csv",
+                help="Download action items as CSV",
+            )
+        with export_col3:
+            json_data = export_service.export_to_json(filtered_items)
+            st.download_button(
+                "📋 JSON",
+                data=json_data,
+                file_name="action_items.json",
+                mime="application/json",
+                help="Download action items as JSON",
+            )
 
     # Group by status for better organization
     status_groups = {
