@@ -8,6 +8,7 @@ from src.models.meeting import Meeting
 from src.models.decision import Decision
 from src.models.action_item import ActionItem
 from src.utils.text_normalizer import normalize_topic
+from src.utils.logger import logger
 
 
 class FilterService:
@@ -87,6 +88,11 @@ class FilterService:
         filtered_df = df[mask]
         filtered_meetings = filtered_df["meeting"].tolist()
 
+        logger.info(
+            f"Filtered {len(meetings)} meetings to {len(filtered_meetings)} "
+            f"(workgroup={workgroup}, date_range={start_date} to {end_date}, tags={len(tags) if tags else 0})"
+        )
+
         return filtered_meetings
 
     def filter_decisions(
@@ -121,6 +127,11 @@ class FilterService:
             filtered = [d for d in filtered if d.date >= start_date]
         if end_date:
             filtered = [d for d in filtered if d.date <= end_date]
+
+        logger.info(
+            f"Filtered {len(decisions)} decisions to {len(filtered)} "
+            f"(workgroup={workgroup}, date_range={start_date} to {end_date})"
+        )
 
         return filtered
 
@@ -167,6 +178,11 @@ class FilterService:
 
         if end_date:
             filtered = [a for a in filtered if a.date <= end_date]
+
+        logger.info(
+            f"Filtered {len(action_items)} action items to {len(filtered)} "
+            f"(workgroup={workgroup}, assignee={assignee}, status={status}, date_range={start_date} to {end_date})"
+        )
 
         return filtered
 

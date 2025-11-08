@@ -57,7 +57,7 @@ def render_graph_explorer(
         "Select View",
         options=["People and Workgroups", "Topics"],
         horizontal=True,
-        help="Choose which relationships to visualize",
+        help="Choose which relationships to visualize. 'People and Workgroups' shows connections between people and their workgroups. 'Topics' shows which topics appear together in meetings.",
     )
 
     # Build graph based on view type
@@ -84,7 +84,7 @@ def render_graph_explorer(
     st.plotly_chart(figure, use_container_width=True)
 
     # Display graph statistics
-    with st.expander("📊 Graph Statistics", expanded=False):
+    with st.expander("📊 Graph Statistics", expanded=False, help="View detailed statistics about the relationship graph including node counts, edge counts, and breakdown by type"):
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Nodes", len(graph.nodes()))

@@ -184,14 +184,14 @@
 - [x] T076 [P] Add export_to_csv() and export_to_json() methods to ExportService in src/services/export_service.py
 - [x] T077 [P] Add export buttons to all views (workgroup browser, decision tracker, action item tracker) in src/ui/components/ with st.download_button
 - [x] T078 [P] Create contract test for export service in tests/contract/test_export_service.py (plain text export, CSV export, JSON export, attribution preservation, empty data, special characters)
-- [ ] T079 [P] Add tooltips and clear labels to all UI components per FR-023 (Accessibility) in src/ui/components/
+- [x] T079 [P] Add tooltips and clear labels to all UI components per FR-023 (Accessibility) in src/ui/components/
 - [x] T080 [P] Add comprehensive error handling and user-friendly error messages throughout the application
-- [ ] T081 [P] Add logging for all major operations (data loading, filtering, aggregation, graph generation) in src/services/
-- [ ] T082 [P] Create unit tests for all models in tests/unit/test_models.py (Meeting, Workgroup, Decision, ActionItem, Person, Topic)
-- [ ] T083 [P] Create unit tests for utility functions in tests/unit/test_utils.py (date_parser, text_normalizer, topic_extractor, person_extractor)
+- [x] T081 [P] Add logging for all major operations (data loading, filtering, aggregation, graph generation) in src/services/
+- [x] T082 [P] Create unit tests for all models in tests/unit/test_models.py (Meeting, Workgroup, Decision, ActionItem, Person, Topic)
+- [x] T083 [P] Create unit tests for utility functions in tests/unit/test_utils.py (date_parser, text_normalizer, topic_extractor, person_extractor)
 - [ ] T084 Add performance tests to verify SC-001 through SC-006 timing requirements in tests/integration/test_performance.py
 - [ ] T085 Add data validation tests for edge cases (malformed JSON, missing fields, special characters) in tests/contract/test_data_parser.py
-- [ ] T086 Update README.md with usage instructions and quickstart guide
+- [x] T086 Update README.md with usage instructions and quickstart guide
 - [ ] T087 Create JSON schema file for input validation in docs/schemas/meeting-archive-schema.json per data-model.md
 - [ ] T088 Run quickstart.md validation to ensure all setup steps work correctly
 - [ ] T089 Code cleanup and refactoring (remove unused code, improve code organization)

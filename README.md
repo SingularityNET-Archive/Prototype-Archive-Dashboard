@@ -4,11 +4,12 @@ A modular, Python-based web dashboard for browsing workgroup meeting archives. T
 
 ## Features
 
-- **Workgroup Browser**: Select a workgroup and view all meetings in chronological order
-- **Meeting Filters**: Filter meetings by date range and topic tags
-- **Decision Tracker**: View aggregated decisions with filtering capabilities
-- **Action Item Tracker**: Track action items with assignee, status, and due date filtering
-- **Graph Explorer**: Visualize relationships between people, topics, and workgroups
+- **📊 Workgroup Browser**: Select a workgroup and view all meetings in chronological order
+- **🔍 Meeting Filters**: Filter meetings by date range and topic tags
+- **📋 Decision Tracker**: View aggregated decisions with filtering capabilities
+- **✅ Action Item Tracker**: Track action items with assignee, status, and due date filtering
+- **🔗 Graph Explorer**: Visualize relationships between people, topics, and workgroups
+- **📥 Data Export**: Export meetings, decisions, and action items in TXT, CSV, or JSON formats
 
 ## Prerequisites
 
@@ -32,7 +33,11 @@ pip install -r requirements.txt
 
 ### 3. Verify Data File
 
-Ensure `meeting-summaries-array-3.json` is in the `data/` directory.
+Ensure `meeting-summaries-array-3.json` is in the `data/` directory or repository root.
+
+**Note**: The dashboard will automatically look for the file in both locations:
+- `data/meeting-summaries-array-3.json` (preferred)
+- `meeting-summaries-array-3.json` (repository root)
 
 ### 4. Run Dashboard
 
@@ -41,6 +46,25 @@ streamlit run src/ui/dashboard.py
 ```
 
 The dashboard will open in your default web browser at `http://localhost:8501`.
+
+## Quick Start Guide
+
+1. **Select a Workgroup**: Use the sidebar to choose a workgroup from the dropdown
+2. **Filter Meetings**: 
+   - Set date range using the Start Date and End Date pickers
+   - Select topics from the Topics multiselect
+3. **Browse Meetings**: View meetings in the "📊 Meetings" tab, sorted by date
+4. **Track Decisions**: Switch to "📋 Decisions" tab to see all decisions from filtered meetings
+5. **Monitor Action Items**: Use "✅ Action Items" tab to track tasks with filtering by assignee and status
+6. **Explore Relationships**: Visit "🔗 Relationships" tab to visualize connections between people, workgroups, and topics
+7. **Export Data**: Click export buttons (📄 TXT, 📊 CSV, 📋 JSON) to download filtered data
+
+## Usage Tips
+
+- **Clear All Filters**: Click "Clear All Filters" in the sidebar to reset all filter selections
+- **Cross-Tab Filtering**: Filters in the sidebar apply across all tabs (Meetings, Decisions, Action Items, Relationships)
+- **Context-Aware Filters**: Selecting a workgroup filters the available options in Topics and Assignee dropdowns
+- **Export Filtered Data**: Export buttons download only the currently displayed (filtered) data
 
 ## Project Structure
 
