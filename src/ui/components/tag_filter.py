@@ -29,6 +29,7 @@ def render_tag_filter(meetings: List[Meeting]) -> Optional[List[str]]:
         "Select Topics",
         options=all_topics,
         default=None,
+        key="tag_filter",
         help="Filter meetings by topics covered. Select one or more topics.",
     )
 

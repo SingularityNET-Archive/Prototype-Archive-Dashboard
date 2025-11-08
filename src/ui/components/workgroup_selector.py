@@ -26,6 +26,7 @@ def render_workgroup_selector(workgroups: List[Workgroup]) -> Optional[str]:
         "Select a Workgroup",
         options=[""] + workgroup_names,
         index=0,
+        key="workgroup_selector",
         help="Choose a workgroup to view its meetings",
     )
 

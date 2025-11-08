@@ -2,6 +2,7 @@
 
 import streamlit as st
 from typing import List, Optional
+from datetime import datetime
 
 from src.models.decision import Decision
 from src.services.filter_service import FilterService
@@ -10,39 +11,34 @@ from src.services.filter_service import FilterService
 def render_decision_tracker(
     decisions: List[Decision],
     filter_service: FilterService,
-    available_workgroups: List[str],
+    selected_workgroup: Optional[str] = None,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
 ) -> None:
-    """Render decision tracker with filtering capabilities.
+    """Render decision tracker with filtered decisions.
 
     Args:
         decisions: List of Decision objects to display
         filter_service: FilterService instance for filtering
-        available_workgroups: List of available workgroup names for filtering
+        selected_workgroup: Selected workgroup filter (optional)
+        start_date: Start date filter (optional)
+        end_date: End date filter (optional)
     """
     if not decisions:
         st.info("No decisions found in the archive.")
         return
 
     st.header("📋 Decision Tracker")
-    st.caption(f"Showing {len(decisions)} decision(s) from all meetings")
-
-    # Filters in sidebar (if not already in main sidebar)
-    with st.expander("🔍 Filter Decisions", expanded=False):
-        col1, col2 = st.columns(2)
-
-        with col1:
-            selected_workgroup = st.selectbox(
-                "Filter by Workgroup",
-                options=[None] + available_workgroups,
-                format_func=lambda x: "All Workgroups" if x is None else x,
-                help="Filter decisions by workgroup",
-            )
-
+    
     # Apply filters
     filtered_decisions = filter_service.filter_decisions(
         decisions,
         workgroup=selected_workgroup,
+        start_date=start_date,
+        end_date=end_date,
     )
+    
+    st.caption(f"Showing {len(filtered_decisions)} decision(s) from all meetings")
 
     if not filtered_decisions:
         st.warning(
@@ -55,8 +51,6 @@ def render_decision_tracker(
         st.subheader(f"Decisions for {selected_workgroup}")
     else:
         st.subheader("All Decisions")
-
-    st.caption(f"Showing {len(filtered_decisions)} of {len(decisions)} decision(s)")
 
     # Display decisions
     for decision in filtered_decisions:

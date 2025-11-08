@@ -93,39 +93,51 @@ class FilterService:
         self,
         decisions: List[Decision],
         workgroup: Optional[str] = None,
+        start_date: Optional[datetime] = None,
+        end_date: Optional[datetime] = None,
     ) -> List[Decision]:
-        """Filter decisions by workgroup.
+        """Filter decisions by workgroup and/or date range.
 
         Args:
             decisions: List of Decision objects to filter
             workgroup: Workgroup name to filter by (optional)
+            start_date: Start date for date range filter (optional)
+            end_date: End date for date range filter (optional)
 
         Returns:
-            Filtered list of Decision objects
+            Filtered list of Decision objects matching all criteria
         """
         if not decisions:
             return []
 
-        if not workgroup:
-            return decisions
+        filtered = decisions
 
         # Filter by workgroup
-        filtered = [d for d in decisions if d.workgroup == workgroup]
+        if workgroup:
+            filtered = [d for d in filtered if d.workgroup == workgroup]
+
+        # Filter by date range
+        if start_date:
+            filtered = [d for d in filtered if d.date >= start_date]
+        if end_date:
+            filtered = [d for d in filtered if d.date <= end_date]
 
         return filtered
 
     def filter_action_items(
         self,
         action_items: List[ActionItem],
+        workgroup: Optional[str] = None,
         assignee: Optional[str] = None,
         status: Optional[str] = None,
         start_date: Optional[datetime] = None,
         end_date: Optional[datetime] = None,
     ) -> List[ActionItem]:
-        """Filter action items by assignee, status, and/or date range.
+        """Filter action items by workgroup, assignee, status, and/or date range.
 
         Args:
             action_items: List of ActionItem objects to filter
+            workgroup: Workgroup name to filter by (optional)
             assignee: Assignee name to filter by (optional)
             status: Status to filter by - "todo", "in progress", "done", "cancelled" (optional)
             start_date: Start date for date range filter (optional)
@@ -139,6 +151,10 @@ class FilterService:
 
         # Apply filters with AND logic
         filtered = action_items
+
+        # Filter by workgroup
+        if workgroup:
+            filtered = [a for a in filtered if a.workgroup == workgroup]
 
         if assignee:
             filtered = [a for a in filtered if a.assignee == assignee]

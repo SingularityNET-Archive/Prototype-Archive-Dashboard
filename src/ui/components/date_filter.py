@@ -19,6 +19,7 @@ def render_date_filter() -> Tuple[Optional[date], Optional[date]]:
         start_date = st.date_input(
             "Start Date",
             value=None,
+            key="date_filter_start",
             help="Filter meetings from this date onwards",
         )
 
@@ -26,6 +27,7 @@ def render_date_filter() -> Tuple[Optional[date], Optional[date]]:
         end_date = st.date_input(
             "End Date",
             value=None,
+            key="date_filter_end",
             help="Filter meetings up to this date",
         )
 
