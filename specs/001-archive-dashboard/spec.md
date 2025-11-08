@@ -18,7 +18,7 @@ A community member wants to explore meeting records from specific workgroups to 
 **Acceptance Scenarios**:
 
 1. **Given** the dashboard has loaded the JSON archive file, **When** a user views the workgroup selection interface, **Then** they see a list of all unique workgroups from the archive
-2. **Given** a user has selected a workgroup, **When** they view the meeting list, **Then** they see all meetings for that workgroup displayed in chronological order (newest first or oldest first)
+2. **Given** a user has selected a workgroup, **When** they view the meeting list, **Then** they see all meetings for that workgroup displayed in chronological order (default: newest first, with option to switch to oldest first)
 3. **Given** a user is viewing a meeting in the list, **When** they examine the meeting details, **Then** they see the date, host, documenter, purpose, and people present
 4. **Given** the JSON file contains meetings with missing optional fields, **When** the dashboard displays those meetings, **Then** it handles missing data gracefully without errors
 
@@ -81,7 +81,7 @@ A community member wants to understand connections between people, topics, and w
 
 - What happens when the JSON file is malformed or missing required fields?
 - How does the system handle meetings with no agenda items, decisions, or action items?
-- What happens when a user filters by a date range that contains no meetings?
+- What happens when a user filters by a date range that contains no meetings? → System displays informative message: "No meetings found in this date range. Try adjusting your date filters or selecting a different time period."
 - How does the system handle duplicate workgroup names or inconsistent naming?
 - What happens when action items have missing assignees or due dates?
 - How does the graph explorer handle workgroups or people with no connections?
@@ -99,7 +99,7 @@ A community member wants to understand connections between people, topics, and w
 - **FR-003**: System MUST display a list of all unique workgroups found in the archive
 - **FR-004**: System MUST allow users to select a workgroup and view all meetings for that workgroup
 - **FR-005**: System MUST display meeting information including date, host, documenter, purpose, and people present
-- **FR-006**: System MUST display meetings in chronological order (configurable as newest-first or oldest-first)
+- **FR-006**: System MUST display meetings in chronological order (default: newest-first, configurable to oldest-first)
 - **FR-007**: System MUST allow users to filter meetings by date range (start date and end date)
 - **FR-008**: System MUST allow users to filter meetings by one or more topic tags
 - **FR-009**: System MUST support combining multiple filters (workgroup, date range, tags) simultaneously
@@ -118,6 +118,9 @@ A community member wants to understand connections between people, topics, and w
 - **FR-022**: System MUST preserve attribution information (documenter, host) from meetingInfo as required by constitution
 - **FR-023**: System MUST provide an interactive interface that supports non-technical users with clear labels and tooltips
 - **FR-024**: System MUST support exporting filtered results or aggregated data in plain-text format
+- **FR-025**: System MUST provide public read-only access with no authentication required (all users have equal access to all data)
+- **FR-026**: System MUST automatically refresh data when the Streamlit app is restarted or reloaded (data refresh occurs via Streamlit's default caching invalidation on app restart)
+- **FR-027**: System MUST display informative messages with guidance when no results are found (e.g., "No meetings found. Try adjusting your filters.") to help users understand empty states and take action
 
 ### Key Entities *(include if feature involves data)*
 
@@ -133,6 +136,15 @@ A community member wants to understand connections between people, topics, and w
 
 - **Topic**: Represents a subject or theme discussed in meetings, extracted from tags.topicsCovered, with relationships to meetings and workgroups
 
+## Clarifications
+
+### Session 2025-11-08
+
+- Q: How should the dashboard handle user access control? → A: Public read-only access (no authentication required)
+- Q: What is the preferred data refresh mechanism when JSON file is updated? → A: Automatic refresh on app restart/reload (Streamlit default behavior)
+- Q: How should the dashboard handle empty results (no meetings match filters, no workgroups found)? → A: Show informative message with guidance (e.g., "No meetings found. Try adjusting your filters.")
+- Q: What should be the default sort order for meetings? → A: Newest first (most recent meetings at top)
+
 ## Assumptions
 
 - The JSON archive file (meeting-summaries-array-3.json) follows a consistent structure with the fields described in Key Entities
@@ -142,7 +154,8 @@ A community member wants to understand connections between people, topics, and w
 - Action item status values are standardized as "todo", "in progress", or "done"
 - The dashboard will be accessed via web browser (desktop or mobile)
 - Users have basic familiarity with web interfaces but may not be technical
-- The JSON file will be updated periodically, and the dashboard should reload or refresh when new data is available
+- The JSON file will be updated periodically, and the dashboard automatically refreshes data when the Streamlit app is restarted or reloaded (using Streamlit's default caching behavior)
+- The dashboard provides public read-only access with no authentication required, aligning with transparency principles
 
 ## Success Criteria *(mandatory)*
 
