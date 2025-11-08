@@ -49,7 +49,17 @@ def load_meeting_data():
 
 
 def main():
-    """Main dashboard function."""
+    """Main dashboard function that orchestrates the Streamlit UI.
+    
+    Loads meeting data, initializes services, renders filters in the sidebar,
+    and displays content in tabs (Meetings, Decisions, Action Items, Relationships).
+    Handles filtering across all tabs and provides export functionality.
+    
+    Raises:
+        FileNotFoundError: If meeting archive file cannot be found
+        json.JSONDecodeError: If JSON file is malformed
+        ValueError: If data validation fails
+    """
     st.set_page_config(
         page_title="Meeting Archive Dashboard",
         page_icon="📊",

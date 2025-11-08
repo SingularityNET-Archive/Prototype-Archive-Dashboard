@@ -180,12 +180,12 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T075 [P] Create ExportService in src/services/export_service.py with export_meetings_plain_text(), export_decisions_plain_text(), export_action_items_plain_text() methods per export-service.md contract
-- [ ] T076 [P] Add export_to_csv() and export_to_json() methods to ExportService in src/services/export_service.py
-- [ ] T077 [P] Add export buttons to all views (workgroup browser, decision tracker, action item tracker) in src/ui/components/ with st.download_button
-- [ ] T078 [P] Create contract test for export service in tests/contract/test_export_service.py (plain text export, CSV export, JSON export, attribution preservation, empty data, special characters)
+- [x] T075 [P] Create ExportService in src/services/export_service.py with export_meetings_plain_text(), export_decisions_plain_text(), export_action_items_plain_text() methods per export-service.md contract
+- [x] T076 [P] Add export_to_csv() and export_to_json() methods to ExportService in src/services/export_service.py
+- [x] T077 [P] Add export buttons to all views (workgroup browser, decision tracker, action item tracker) in src/ui/components/ with st.download_button
+- [x] T078 [P] Create contract test for export service in tests/contract/test_export_service.py (plain text export, CSV export, JSON export, attribution preservation, empty data, special characters)
 - [ ] T079 [P] Add tooltips and clear labels to all UI components per FR-023 (Accessibility) in src/ui/components/
-- [ ] T080 [P] Add comprehensive error handling and user-friendly error messages throughout the application
+- [x] T080 [P] Add comprehensive error handling and user-friendly error messages throughout the application
 - [ ] T081 [P] Add logging for all major operations (data loading, filtering, aggregation, graph generation) in src/services/
 - [ ] T082 [P] Create unit tests for all models in tests/unit/test_models.py (Meeting, Workgroup, Decision, ActionItem, Person, Topic)
 - [ ] T083 [P] Create unit tests for utility functions in tests/unit/test_utils.py (date_parser, text_normalizer, topic_extractor, person_extractor)
@@ -195,7 +195,7 @@
 - [ ] T087 Create JSON schema file for input validation in docs/schemas/meeting-archive-schema.json per data-model.md
 - [ ] T088 Run quickstart.md validation to ensure all setup steps work correctly
 - [ ] T089 Code cleanup and refactoring (remove unused code, improve code organization)
-- [ ] T090 Add docstrings to all public functions and classes following Python conventions
+- [x] T090 Add docstrings to all public functions and classes following Python conventions
 
 ---
 
